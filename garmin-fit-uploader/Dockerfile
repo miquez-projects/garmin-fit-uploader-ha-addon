@@ -20,7 +20,7 @@ RUN npm install --omit=dev \
 # Fetch Garmin FIT SDK (jar is used at runtime).
 RUN mkdir -p /opt/fit-sdk \
   && curl -L -o /opt/fit-sdk/FitSDKRelease.zip https://developer.garmin.com/downloads/fit/sdk/FitSDKRelease_21.188.00.zip \
-  && python3 - <<'PY'\nimport zipfile\nfrom pathlib import Path\nzip_path = Path('/opt/fit-sdk/FitSDKRelease.zip')\nwith zipfile.ZipFile(zip_path) as zf:\n    zf.extractall('/opt/fit-sdk')\nPY\n   && rm /opt/fit-sdk/FitSDKRelease.zip
+  && python3 -c "import zipfile; zf=zipfile.ZipFile('/opt/fit-sdk/FitSDKRelease.zip'); zf.extractall('/opt/fit-sdk'); zf.close()" \
   && rm /opt/fit-sdk/FitSDKRelease.zip
 
 CMD ["/run.sh"]
