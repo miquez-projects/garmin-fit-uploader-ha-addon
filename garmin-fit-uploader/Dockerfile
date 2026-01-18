@@ -12,7 +12,7 @@ RUN apt-get update \
      build-essential \
   && rm -rf /var/lib/apt/lists/*
 
-COPY rootfs /
+COPY rootfs /app
 
 RUN npm install --omit=dev \
   && npx playwright install --with-deps chromium
