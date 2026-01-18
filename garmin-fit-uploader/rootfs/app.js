@@ -96,7 +96,17 @@ async function uploadFit(fitPath) {
   const page = await context.newPage();
 
   await page.goto(IMPORT_URL, { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('text=/Drop files here/i', { timeout: 30000 });
+
+  try {
+    await page.waitForURL(/connect\.garmin\.com\/.*import-data/, { timeout: 20000 });
+  } catch (_) {
+    const currentUrl = page.url();
+    if (currentUrl.includes('sso.garmin.com')) {
+      throw new Error('Garmin session expired; re-generate garmin-storage-state.json and redeploy it.');
+    }
+  }
+
+  await page.waitForSelector('text=/Drop files here/i', { timeout: 60000 });
 
   const fileInput = page.locator('input[type="file"]').first();
   if (await fileInput.count()) {
