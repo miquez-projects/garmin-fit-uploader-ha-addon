@@ -9,10 +9,12 @@ This add-on accepts body composition data and uploads it to Garmin Connect as a 
 node /Users/gabormikes/garmin-fit-upload/upload-fit.js --init
 ```
 
-Copy the resulting file into the add-on data directory on your Home Assistant box:
+Copy the resulting file into the add-on data directory on your Home Assistant box (or `/config` / `/share`):
 
 ```
-/\data/garmin-storage-state.json
+/data/garmin-storage-state.json
+/config/garmin-storage-state.json
+/share/garmin-storage-state.json
 ```
 
 ## API

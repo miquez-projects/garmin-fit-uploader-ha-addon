@@ -1,6 +1,6 @@
 {
   "name": "Garmin FIT Uploader",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "slug": "garmin-fit-uploader",
   "description": "Uploads body composition FIT files to Garmin Connect from queued entries.",
   "arch": ["aarch64", "armv7", "amd64"],
@@ -14,6 +14,10 @@
   "ports_description": {
     "8088/tcp": "REST API for body composition ingestion"
   },
+  "map": [
+    "config:rw",
+    "share:rw"
+  ],
   "options": {
     "poll_interval_seconds": 30,
     "headless": true

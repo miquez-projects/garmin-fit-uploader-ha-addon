@@ -7,7 +7,11 @@ const { chromium } = require('playwright');
 
 const DATA_DIR = '/data';
 const DB_PATH = path.join(DATA_DIR, 'queue.sqlite');
-const STORAGE_STATE = path.join(DATA_DIR, 'garmin-storage-state.json');
+const STORAGE_STATE_CANDIDATES = [
+  path.join(DATA_DIR, 'garmin-storage-state.json'),
+  '/config/garmin-storage-state.json',
+  '/share/garmin-storage-state.json',
+];
 const FIT_SDK_JAR = '/opt/fit-sdk/java/FitCSVTool.jar';
 const IMPORT_URL = 'https://connect.garmin.com/modern/import-data';
 const PORT = 8088;
@@ -72,13 +76,23 @@ function encodeFit(csvPath) {
   return fitPath;
 }
 
+function resolveStorageState() {
+  for (const candidate of STORAGE_STATE_CANDIDATES) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return null;
+}
+
 async function uploadFit(fitPath) {
-  if (!fs.existsSync(STORAGE_STATE)) {
-    throw new Error(`Missing Garmin session: ${STORAGE_STATE}. Provide a storageState.json file.`);
+  const storageStatePath = resolveStorageState();
+  if (!storageStatePath) {
+    throw new Error(
+      `Missing Garmin session. Provide garmin-storage-state.json in: ${STORAGE_STATE_CANDIDATES.join(', ')}`
+    );
   }
 
   const browser = await chromium.launch({ headless: HEADLESS });
-  const context = await browser.newContext({ storageState: STORAGE_STATE });
+  const context = await browser.newContext({ storageState: storageStatePath });
   const page = await context.newPage();
 
   await page.goto(IMPORT_URL, { waitUntil: 'domcontentloaded' });
