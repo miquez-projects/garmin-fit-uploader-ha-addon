@@ -9,7 +9,6 @@ RUN apt-get update \
      ca-certificates \
      curl \
      python3 \
-     unzip \
      build-essential \
   && rm -rf /var/lib/apt/lists/*
 
@@ -21,7 +20,7 @@ RUN npm install --omit=dev \
 # Fetch Garmin FIT SDK (jar is used at runtime).
 RUN mkdir -p /opt/fit-sdk \
   && curl -L -o /opt/fit-sdk/FitSDKRelease.zip https://developer.garmin.com/downloads/fit/sdk/FitSDKRelease_21.188.00.zip \
-  && unzip -q /opt/fit-sdk/FitSDKRelease.zip -d /opt/fit-sdk \
+  && python3 - <<'PY'\nimport zipfile\nfrom pathlib import Path\nzip_path = Path('/opt/fit-sdk/FitSDKRelease.zip')\nwith zipfile.ZipFile(zip_path) as zf:\n    zf.extractall('/opt/fit-sdk')\nPY\n   && rm /opt/fit-sdk/FitSDKRelease.zip
   && rm /opt/fit-sdk/FitSDKRelease.zip
 
 CMD ["/run.sh"]
