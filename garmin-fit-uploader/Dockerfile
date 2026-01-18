@@ -19,7 +19,7 @@ COPY rootfs /app
 RUN npm install --omit=dev \
   && npx playwright install --with-deps chromium
 
-RUN pip3 install --no-cache-dir garth
+RUN pip3 install --no-cache-dir --break-system-packages garth
 
 # Fetch Garmin FIT SDK (jar is used at runtime).
 RUN mkdir -p /opt/fit-sdk \
