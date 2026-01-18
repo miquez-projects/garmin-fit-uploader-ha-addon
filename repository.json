@@ -1,5 +1,5 @@
 {
   "name": "Garmin FIT Uploader Add-ons",
-  "url": "local",
+  "url": "https://github.com/miquez-projects/garmin-fit-uploader-ha-addon",
   "maintainer": "Gabor"
 }
