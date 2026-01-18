@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bash
+#!/bin/sh
 set -e
 
-node /app/app.js
+exec node /app/app.js
