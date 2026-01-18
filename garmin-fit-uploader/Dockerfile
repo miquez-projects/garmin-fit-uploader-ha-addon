@@ -9,6 +9,7 @@ RUN apt-get update \
      ca-certificates \
      curl \
      python3 \
+     unzip \
      build-essential \
   && rm -rf /var/lib/apt/lists/*
 
