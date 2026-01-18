@@ -12,6 +12,12 @@ const STORAGE_STATE_CANDIDATES = [
   '/config/garmin-storage-state.json',
   '/share/garmin-storage-state.json',
 ];
+const TOKEN_DIR_CANDIDATES = [
+  path.join(DATA_DIR, 'garmin-oauth'),
+  '/config/garmin-oauth',
+  '/share/garmin-oauth',
+];
+const GARTH_UPLOAD_SCRIPT = '/app/garmin_upload.py';
 const FIT_SDK_JAR = '/opt/fit-sdk/java/FitCSVTool.jar';
 const IMPORT_URL = 'https://connect.garmin.com/modern/import-data';
 const PORT = 8088;
@@ -83,11 +89,30 @@ function resolveStorageState() {
   return null;
 }
 
+function resolveTokenDir() {
+  for (const candidate of TOKEN_DIR_CANDIDATES) {
+    const oauth1 = path.join(candidate, 'oauth1_token.json');
+    const oauth2 = path.join(candidate, 'oauth2_token.json');
+    if (fs.existsSync(oauth1) && fs.existsSync(oauth2)) return candidate;
+  }
+  return null;
+}
+
+function uploadFitWithGarth(tokenDir, fitPath) {
+  execFileSync('python3', [GARTH_UPLOAD_SCRIPT, tokenDir, fitPath], { stdio: 'inherit' });
+}
+
 async function uploadFit(fitPath) {
+  const tokenDir = resolveTokenDir();
+  if (tokenDir) {
+    uploadFitWithGarth(tokenDir, fitPath);
+    return;
+  }
+
   const storageStatePath = resolveStorageState();
   if (!storageStatePath) {
     throw new Error(
-      `Missing Garmin session. Provide garmin-storage-state.json in: ${STORAGE_STATE_CANDIDATES.join(', ')}`
+      `Missing Garmin auth. Provide garmin-oauth directory (oauth1_token.json + oauth2_token.json) in: ${TOKEN_DIR_CANDIDATES.join(', ')} or garmin-storage-state.json in: ${STORAGE_STATE_CANDIDATES.join(', ')}`
     );
   }
 

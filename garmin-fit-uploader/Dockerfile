@@ -9,6 +9,7 @@ RUN apt-get update \
      ca-certificates \
      curl \
      python3 \
+     python3-pip \
      default-jre-headless \
      build-essential \
   && rm -rf /var/lib/apt/lists/*
@@ -17,6 +18,8 @@ COPY rootfs /app
 
 RUN npm install --omit=dev \
   && npx playwright install --with-deps chromium
+
+RUN pip3 install --no-cache-dir garth
 
 # Fetch Garmin FIT SDK (jar is used at runtime).
 RUN mkdir -p /opt/fit-sdk \

@@ -3,6 +3,17 @@
 This add-on accepts body composition data and uploads it to Garmin Connect as a FIT file.
 
 ## What you need first
+### Preferred (recommended): Garmin OAuth tokens via garth
+1) Generate Garmin OAuth tokens locally (one-time 2FA login).
+2) Copy the token directory to HA (must contain `oauth1_token.json` and `oauth2_token.json`):
+
+```
+/data/garmin-oauth
+/config/garmin-oauth
+/share/garmin-oauth
+```
+
+### Fallback: Playwright session state (may expire quickly)
 1) Generate a Garmin session state file (`storageState.json`) locally using the Playwright script:
 
 ```
