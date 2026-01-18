@@ -1,6 +1,6 @@
 {
   "name": "Garmin FIT Uploader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "slug": "garmin-fit-uploader",
   "description": "Uploads body composition FIT files to Garmin Connect from queued entries.",
   "arch": ["aarch64", "armv7", "amd64"],
