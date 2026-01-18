@@ -1,0 +1,11 @@
+{
+  "name": "garmin-fit-uploader-addon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "app.js",
+  "dependencies": {
+    "playwright": "^1.52.0",
+    "sqlite3": "^5.1.7"
+  }
+}
