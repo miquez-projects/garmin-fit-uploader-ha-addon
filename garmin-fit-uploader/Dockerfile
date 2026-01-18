@@ -23,4 +23,4 @@ RUN mkdir -p /opt/fit-sdk \
   && python3 -c "import zipfile; zf=zipfile.ZipFile('/opt/fit-sdk/FitSDKRelease.zip'); zf.extractall('/opt/fit-sdk'); zf.close()" \
   && rm /opt/fit-sdk/FitSDKRelease.zip
 
-CMD ["/run.sh"]
+CMD ["node", "/app/app.js"]
