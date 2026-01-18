@@ -9,6 +9,7 @@ RUN apt-get update \
      ca-certificates \
      curl \
      python3 \
+     default-jre-headless \
      build-essential \
   && rm -rf /var/lib/apt/lists/*
 
